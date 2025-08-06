@@ -44,6 +44,11 @@ public class ShoppingCart {
 
     public void addItem(String productId, int quantity) {
         Product product = productCatalog.findById(productId);
+        
+        if (quantity <= 0) {
+            throw new IllegalArgumentException("Quantity must be > 0");
+        }
+
         if (product == null) {
             throw new IllegalArgumentException("Product not found"+productId);
         }

@@ -57,9 +57,23 @@ public class App {
         cart.addItem("P002", 1); // Soda x5+1=6
         check("Add item to meet bulk discount threshold", cart.getItemCount() == 2 && cart.getTotalPrice() == 30.0 + (30.0 * 0.9)); // 30 + 27 = 57.0
 
+        try {
+            cart.addItem("P999", 1); // Non-existent product
+        check("Adding non-existent product should throw exception", false);
+        } catch (IllegalArgumentException e) {
+        check("Adding non-existent product should throw exception", true);
+        }
+
+        try {
+        cart.addItem("P003", 0); // Invalid quantity
+        check("Adding zero quantity should throw exception", false);
+        } catch (IllegalArgumentException e) {
+        check("Adding zero quantity should throw exception", true);
+        }
+        
         cart.removeItem("P002"); // Remove soda
         check("Remove item correctly updates count and price", cart.getItemCount() == 1 && cart.getTotalPrice() == 30.0);
-        
+
         cart.removeItem("P999"); // Remove non-existent item
         check("Removing non-existent item does not change cart", cart.getItemCount() == 1 && cart.getTotalPrice() == 30.0);
         
